@@ -1,7 +1,8 @@
 """Tests for clrs._src.clrs_text.huggingface_generators."""
 from absl.testing import parameterized
 import clrs
-from clrs._src.clrs_text import clrs_utils, huggingface_generators
+from clrs._src.clrs_text import clrs_utils
+import huggingface_generators
 from datasets import Dataset, IterableDataset, Value, Features
 
 class TestFormatCLRSExamplesHFDataset(parameterized.TestCase):

@@ -32,14 +32,16 @@ def _get_version():
     raise ValueError('`__version__` not defined in `clrs/__init__.py`')
 
 
-def _parse_requirements(path):
-
-  with open(os.path.join(_CURRENT_DIR, path)) as f:
-    return [
-        line.rstrip()
-        for line in f
-        if not (line.isspace() or line.startswith('#'))
-    ]
+def _parse_requirements(base_path, paths):
+  requirements = []
+  for path in paths:
+    with open(os.path.join(_CURRENT_DIR, base_path, path)) as f:
+      requirements += [
+          line.rstrip()
+          for line in f
+          if not (line.isspace() or line.startswith('#'))
+      ]
+  return requirements
 
 
 setup(
@@ -54,10 +56,15 @@ setup(
     author_email='clrs-dev@google.com',
     keywords='python machine learning',
     packages=find_namespace_packages(exclude=['*_test.py']),
-    install_requires=_parse_requirements(
-        os.path.join(_CURRENT_DIR, 'requirements', 'requirements.txt')),
     tests_require=_parse_requirements(
-        os.path.join(_CURRENT_DIR, 'requirements', 'requirements.txt')),
+        os.path.join(_CURRENT_DIR, 'requirements'), ['requirements_text.txt','requirements.txt']),
+    install_requires=[],  # Empty to avoid installing any default dependencies
+    extras_require={
+        'main': _parse_requirements(
+            os.path.join(_CURRENT_DIR, 'requirements'), ['requirements.txt']),  # Dependencies for main installation
+        'text': _parse_requirements(
+            os.path.join(_CURRENT_DIR, 'requirements'), ['requirements_text.txt'])  # Independent dependencies for text functionality
+    },
     zip_safe=False,  # Required for full installation.
     python_requires='>=3.6',
     classifiers=[

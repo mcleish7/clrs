@@ -31,7 +31,7 @@ from clrs._src import specs
 import jax
 import jax.numpy as jnp
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
 
 
 _Location = specs.Location
@@ -48,9 +48,9 @@ ProbesDict = Dict[
 
 
 def _convert_to_str(element):
-  if isinstance(element, tf.Tensor):
-    return element.numpy().decode('utf-8')
-  elif isinstance(element, (np.ndarray, bytes)):
+  # if isinstance(element, tf.Tensor):
+  #   return element.numpy().decode('utf-8')
+  if isinstance(element, (np.ndarray, bytes)):
     return element.decode('utf-8')
   else:
     return element
